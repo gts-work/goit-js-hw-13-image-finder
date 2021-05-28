@@ -5,12 +5,15 @@ import { appendItemCountryMarkup, cleanContent, createPhotoModal } from './js/ma
 import { refs } from './js/refs';
 import { photoFetch } from './js/fetchApi';
 
-var debounce = require('lodash.debounce');
+// var debounce = require('lodash.debounce');
 
 const pixabayApiService = new PixabayApiService();
 
 const inputButton = refs.inputBtn;
-inputButton.addEventListener('input', debounce(onInputSearch, 800));
+// inputButton.addEventListener('input', debounce(onInputSearch, 800));
+
+const searchForm = refs.searchForm;
+searchForm.addEventListener('submit', onInputSearch);
 
 const photoCard = refs.photoCard;
 photoCard.addEventListener('click', onClickPhotoCard);
@@ -36,7 +39,11 @@ console.log('observer 2: ', observer);
 // END LOAD MORE
 
 function onInputSearch(e) {
-  const photoQuery = e.target.value.trim();
+  e.preventDefault();
+  const form = e.currentTarget;
+  console.log('onInputSearch ~ form: ', form);
+
+  const photoQuery = form.elements.query.value.trim();
   console.log('onInputSearch ~ photoQuery: ', photoQuery);
 
   if (photoQuery) {
